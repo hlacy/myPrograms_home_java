@@ -1,0 +1,44 @@
+String txt = JOptionPane.showInputDialog(""); 	- выводит диалоговое окно
+
+JOptionPane.showMessageDialog(null, txt); 	- выводит введенное в диалоговом окне
+
+String j =  (x % 2 == 0) ? "the number is even" : "the number is odd";
+		System.out.println(j);		- тернарная операция
+
+Scanner read = new Scanner(System.in);
+		int x = read.nextInt();		- ввод с клавиатуры, надо обращаться к переменной
+						read.переменная
+
+int x = new Scanner(System.in).nextInt;		- ввод с клавиатуры, но для каждого ввода надо
+						создавать новею переменную
+
+switch (x){
+				
+	case "1":
+		System.out.println("it's a 1");
+	break;
+	case "2":
+		System.out.println("it's a 2");
+	break;
+	default:
+		System.out.println("give a fuck");
+	}					- цикл switch-case
+
+for (int x = 0; x++ <= 5; ) 	или	for (int x = 0; x <= 5; х++) 
+	System.out.print(x + " ");		- цикл for
+
+do {
+	System.out.printf("x is %s\n", x);
+	x++;
+} while (x <= 10);				- цикл do-while
+		
+		
+while (x <= 10){
+	System.out.printf("\t\tx is %s\n", x);
+	x++;
+			
+}						- цикл while
+
+Arrays.toString()				- превращает массив в строку
+Arrays.copyOf 					-копирует значение из массива nums в новый массив
+
