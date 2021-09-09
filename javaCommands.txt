@@ -2,6 +2,8 @@ String txt = JOptionPane.showInputDialog(""); 	- выводит диалогов
 
 JOptionPane.showMessageDialog(null, txt); 	- выводит введенное в диалоговом окне
 
+import java.util.Scanner;
+
 String j =  (x % 2 == 0) ? "the number is even" : "the number is odd";
 		System.out.println(j);		- тернарная операция
 
@@ -9,7 +11,7 @@ Scanner read = new Scanner(System.in);
 		int x = read.nextInt();		- ввод с клавиатуры, надо обращаться к переменной
 						read.переменная
 
-int x = new Scanner(System.in).nextInt;		- ввод с клавиатуры, но для каждого ввода надо
+int x = new Scanner(System.in).nextInt();		- ввод с клавиатуры, но для каждого ввода надо
 						создавать новею переменную
 
 switch (x){
