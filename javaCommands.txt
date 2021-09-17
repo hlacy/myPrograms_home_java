@@ -2,6 +2,8 @@ String txt = JOptionPane.showInputDialog(""); 	- выводит диалогов
 
 JOptionPane.showMessageDialog(null, txt); 	- выводит введенное в диалоговом окне
 
+import com.company.switvh_learn;		- подключение библиотеки 
+
 import java.util.Scanner;
 
 String j =  (x % 2 == 0) ? "the number is even" : "the number is odd";
@@ -12,22 +14,73 @@ Scanner read = new Scanner(System.in);
 						read.переменная
 
 int x = new Scanner(System.in).nextInt();		- ввод с клавиатуры, но для каждого ввода надо
-						создавать новею переменную
+							создавать новею переменную
+
+
+
+int[] array = new int[5];
+Arrays_class[] mass = new Arrays_class[3];
+int[] array2 = {1, 2, 3, 4};
+    
+Arrays_class box1 = new Arrays_class();
+Arrays_class box2 = new Arrays_class();
+Arrays_class box3 = new Arrays_class();
+Arrays_class[] box = {box1, box2, box3};		- создание массивов
+
+ for (int i = 0; i < array2.length; i++)		- длина массива .length, скобочки не нужны
+
+
+int [][] mas1 = new int[2][3];
+int [][] mas2 = {{1, 2}, {3, 4}};			- массив массивов
+int [][][] mas3 = {{{1, 2}, {3, 4}},{{5, 6}, {7, 8}}};
+System.out.println(mas3[0][1][1]);
 
 switch (x){
 				
 	case "1":
 		System.out.println("it's a 1");
-	break;
+		break;
 	case "2":
 		System.out.println("it's a 2");
-	break;
+		break;
 	default:
 		System.out.println("give a fuck");
-	}					- цикл switch-case
+	}					- цикл switch-case, break нужен так как выполняются все опреаторы 
+							после сработавшего случая, 
+							используются только константы и String, 
+							необходимо слово final для констант и String.
+
+
+final int VALUE1 = 10, VALUE2 = 25, VALUE3 = 48, VALUE = 48;
+        switch (VALUE) {
+            case VALUE1:
+                System.out.println("10");
+                break;
+            case VALUE2:
+                System.out.println("25");
+                break;
+            case VALUE3:
+                System.out.println("48");
+                break;
+            default:
+                System.out.println("Default");
+        }				
+
+
 
 for (int x = 0; x++ <= 5; ) 	или	for (int x = 0; x <= 5; х++) 
 	System.out.print(x + " ");		- цикл for
+
+
+for(<Тип элемента> <Имя переменной, куда будет записан очередной элемент> : <Название массива>) {
+	// Тело цикла				
+}						- цикл for
+
+public void printAllElements(String[] stringArray) {
+   for(String s : stringArray) {
+       System.out.println(s);
+   }
+}						- цикл for 
 
 do {
 	System.out.printf("x is %s\n", x);
@@ -42,5 +95,34 @@ while (x <= 10){
 }						- цикл while
 
 Arrays.toString()				- превращает массив в строку
-Arrays.copyOf 					-копирует значение из массива nums в новый массив
+Arrays.copyOf 					- копирует значение из массива nums в новый массив
+str.charAt(i)					- позвращает символ под индексом i переменной типа String
+int i = Integer.parseInt("10")			- перенвод строки в тип int, аналогично для других типов
+i = Integer.parseInt("00000001", 2)		- можно и так, есл есть основание
+x.toString()					- перевод числа в строку
+Integer.toBinaryString(i)			- перевод int в бинарное число типа String
+System.out.println(x.toString());  		- Преобразовать число x в строку
+System.out.println(Integer.toString(12));  	- Преобразовать int в string
+
+System.out.println(Integer.toBinaryString(Integer.parseInt(x, 2) - Integer.parseInt(y, 2)));	-пример
+
+ System.out.println(x instanceof int);		- сравнивает x с типом Integer, вместо int можно написать переменную 
+							какого-то типа
+System.getProperty("java.version")		- данные ПО, см. инфо getProperty
+
+					
+						
+
+						Модификаторы
+private, default, protected, public
+
+private можно применять только к вложенному классу. Использовать этот вложенный private класс можно только в методах 
+	основного класса. Это также относится к конструкторам, методам, полям	
+	private class CommonMain {
+
+default данный модификатор не пишется, то есть не надо писать это слова, это означает наш класс и его сотовляющие 
+	доступны только в нашем пакете 
+	class CommonMain {
+
+protected может создаваться только во вложенном классе он работает почти так же как и default
 
