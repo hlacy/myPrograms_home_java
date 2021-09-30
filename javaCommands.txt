@@ -324,7 +324,7 @@ System.out.println(str1.codePointAt(5));
 System.out.println(str1.compareTo(str2));
 	str1.compareToIgnoreCase(str2) - сравнивает строки, не включая размер шрифт и возращает 0, если они одинокавые
 System.out.println(str1.compareToIgnoreCase(str2));
-	str1.concat(str2) - объединяет две строки, аналогичен str1 + str2
+	str1.concat(str2) - объединяет две строки, аналогичен str1 + str2, но строка не изменяется
 System.out.println(str1.concat(str2));
 	str1.equals(str2) - сравнивает строки, выдает true or false
 System.out.println(str1.equals(str2));
@@ -356,3 +356,58 @@ for (char i : arr)
 	String.valueOf() - приводит введеный тип к String
 System.out.println(String.valueOf(65));
 	String.copyValueOf() - преобразует char[] к String
+
+
+
+
+					StringBuilder / StringBuffer
+public class CommonMain {
+    public static void main(String[] arg){
+        String str = new String();
+        StringBuilder stringBuilder = new StringBuilder();
+        StringBuffer stringBuffer = new StringBuffer();
+        System.out.println(stringBuilder.capacity());
+    }
+}
+
+-объект класса StringBuilder / StringBuffer можно преобразовать к String
+- StringBuilder / StringBuffer используются, когда складываются много строк
+-метод toString()- метод класса Object, приводит StringBuilder / StringBuffer к классу String
+-StringBuilder быстрее, но он не потокобезопасен в отличие от StringBuffer 
+- StringBuilder() конструтор по умолчанию выделяет памяитт под 16 символов
+	можно проверить System.out.println(stringBuilder.capacity());
+	
+stringBuilder.ensureCapacity(17) -  задает минимальную вместимость, т.е. при выводе stringBuilder.capacity()
+	размер может быть больше или равен написанному
+stringBuilder.append(" ho t ") - к stringBuilder прибавляется строка/int/double/etc. , но 
+	меняется строка stringBuilder, в отличие от concat()
+stringBuilder.setLength(15) - задает размер буфера, типо ensureCapacity, но хз
+stringBuilder.insert(1,"h")  - добавляет символ h после 1 символа
+stringBuilder.delete(1, 4)  - удаляет символы с 1 по 4
+stringBuilder.deleteCharAt(2) - удаляет определенный символ
+stringBuilder.reverse()  - переворачивает строку
+
+
+				Generic / Параметризация / Обобщения
+public class Robot<T> {  	- <T> - параметр, может быть любая буква или 
+    private Body body;
+    private T head;
+}
+
+public class Robot<T1, T2> {  	- или несколько букв, если несколько параметров
+    private T2 body;
+    private T1 head;
+}
+
+public class CommonMain {
+    public static void main(String[] arg){
+        Body body = new Body();
+        SmallHead smallHead = new SmallHead();
+        MediumHead mediumHead = new MediumHead();
+        BigHead bigHead = new BigHead();
+
+        Robot<SmallHead> robot = new Robot<SmallHead>(body, smallHead); - <SmallHead> становится <T>
+									при вызове этого класса
+
+    }
+}
