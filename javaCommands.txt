@@ -392,6 +392,26 @@ stringBuilder.reverse()  - переворачивает строку
 public class Robot<T> {  	- <T> - параметр, может быть любая буква или 
     private Body body;
     private T head;
+    public Robot(Body body, T head) {
+    this.body = body;
+    this.head = head;
+    }
+
+    public Body getBody() {
+        return body;
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
+    }
+
+    public T getHead() {
+        return head;
+    }
+
+    public void setHead(T head) {
+        this.head = head;
+    }
 }
 
 public class Robot<T1, T2> {  	- или несколько букв, если несколько параметров
@@ -405,9 +425,200 @@ public class CommonMain {
         SmallHead smallHead = new SmallHead();
         MediumHead mediumHead = new MediumHead();
         BigHead bigHead = new BigHead();
+	Leg leg = new Leg();
 
         Robot<SmallHead> robot = new Robot<SmallHead>(body, smallHead); - <SmallHead> становится <T>
 									при вызове этого класса
+	Robot<BigHead> robot1 = new Robot<BigHead>(body, bigHead);
+        robot.getHead().burn();				- у Bighead, SmallHead свои burn()
+        robot1.getHead().burn();
+	robot1 = robot;    				- так делать нельзя, будет ошибка
+
+ 	Robot robot2 = new Robot(body, bigHead); 	- создается пустой экземпляр, нет методов Bighead,
+								но ему можно плставить значение полного экземпляра
+        robot2 = robot
+    }
+}
+
+	<T>- при компиляции заменяется на переднный в <> класс, не надо дохуя раз описывать для разных комбинаций
+
+
+public class Robot<T extends Head> { 			- extends Head ограничивает классы, чтобы вместо головы 
+								не предать ногу
+    private Body body;
+    private T head;
+	
+
+
+public class Robot<T> {
+    private Body body;
+    private T head;
+
+    public <T1, T2 extends Head> T2 foo(T1 a, T2 b){
+        T1 leg = new T1();			 	- так делать нельзя, т.к. не понятно какой тип имеет T1 
+        a + b;						- нельзя, можем использовать только методы класса Object
+	return b;
+    }
+
+
+public class CommonMain {
+    public static void main(String[] arg){
+        Body body = new Body();
+        SmallHead smallHead = new SmallHead();
+        MediumHead mediumHead = new MediumHead();
+        BigHead bigHead = new BigHead();
+        Leg leg = new Leg();
+
+        Robot robot = new Robot(body, smallHead);
+        robot.<SmallHead, MediumHead>foo(smallHead, mediumHead); 	- передача параметров в метод
+
+    }
+}
+
+
+public class Robot <T extends Head>{
+    private Body body;
+    private T head;
+
+
+    public void foo(Robot <?> obj){			- если не знаем класс
+        return;
+    }
+
+    public Robot(Body body, T head) {
+        this.body = body;
+        this.head = head;
+    }
+
+
+public class CommonMain {
+    public static void main(String[] arg){
+        Body body = new Body();
+        SmallHead smallHead = new SmallHead();
+        MediumHead mediumHead = new MediumHead();
+        BigHead bigHead = new BigHead();
+        Leg leg = new Leg();
+
+        Robot<SmallHead> robot = new Robot(body, smallHead);
+        Robot<MediumHead> robot1 = new Robot<MediumHead>(body, mediumHead);
+        robot.foo(robot1);
+    }
+}
+
+
+
+
+					Исключения, ошибки и их иерархия. Блоки try, catch, finally
+	-при использовании try catch программа продолжает работать, если возникает ошибка
+
+public class Abc {
+    
+    public void show(){
+    }
+}
+
+
+public class ErrorExample {
+    private Abc abc;
+
+    public void foo(){
+//        System.out.println(1/0);
+//        int arr[] = {1, 2, 3};
+//        arr[5] = 5;
+
+    try
+    {
+        abc.show();
+    } catch (NullPointerException e) {
+        System.err.println("division by 0");		- System.err.println значит, что выводимая 
+								информация будет красного цвета
+	e.printStackTrace(); 				- выведет сообщение об ошибке, почти такоеже как при 	
+								ошибке при отсутствии блока обработки ошибок
+    }
+    }
+}
+
+public class CommonMain {
+    public static void main(String[] arg){
+        ErrorExample errorExample = new ErrorExample();
+        errorExample.foo();
+    }
+}
+	
+		-проще определенную часть наследнеиков RuntimeExeption обраюатывать блоком if, because try-catch 
+			is very	resourse-intensive process
+
+public class ErrorExample {
+    private Abc abc;
+
+    public void foo(){
+//        System.out.println(1/0);
+//        int arr[] = {1, 2, 3};
+//        arr[5] = 5;
+        if (abc == null)
+            System.out.println("null pointer");
+        else {
+            abc.show();
+        }
+	
+		-handling several exeption, try-catch will end, when there is a first exception
+try
+    {
+        abc.show();
+        System.out.println(1/0);
+    } catch (NullPointerException e) {
+        e.printStackTrace();
+    } catch (ArithmeticException ex){
+        ex.printStackTrace();
+    }
+        System.out.println("\ntry");
+    }
+}
+
+		-or
+
+ try
+    {
+        abc.show();
+        System.out.println(1/0);
+    } catch (NullPointerException | ArithmeticException e) {
+        e.printStackTrace();
+    }
+
+
+		-rarely we have to add the throws and class of exception
+public class ErrorExample {
+    private Abc abc;
+
+    public void foo() throws FileNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream("");
+
+    }
+}
+
+ 
+	-finally needs to evecute action, if any exception have been found by try-catch
+
+
+public class ErrorExample {
+    private Abc abc;
+
+    public void foo()  {
+        FileInputStream fileInputStream = null;
+// Throwable //    				- hover the cursor over Throwable and press ctrl+H
+							there is will be hierarchy of exception
+        try {
+            fileInputStream = new FileInputStream("");
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        } finally {   				- usually finally closes the input/output strems
+            try {
+                fileInputStream.close();
+            }   catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }
 
     }
 }
