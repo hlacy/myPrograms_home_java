@@ -165,8 +165,8 @@ this()- Внутри класса для вызова своего констр�
 		this() и super() вызывают конструктор без аргументов наследующего и родительского классов соответственно.
 Внутри конструктора this и super должны стоять выше всех других выражений, в самом начале, иначе компилятор выдаст сообщение об ошибке. 
 		Из чего следует, что в одном конструкторе не может быть одновременно и this(), и super().
-Каждый конструктор при отсутствии явных вызовов других конструкторов неявно вызывает с помощью super() конструктор без аргументов 
-		родительского класса, при этом у вас всегда остается возможность явно вызвать любой другой конструктор
+Каждый конструктор при отсутствии явных вызовов других конструкторов неявно вызывает с помощью super() конструктор без 
+	аргументов родительского класса, при этом у вас всегда остается возможность явно вызвать любой другой конструктор
 		 с помощью либо this(), либо super().
 
 
@@ -622,3 +622,200 @@ public class ErrorExample {
 
     }
 }
+
+
+
+				Создание собственных исключений. Оператор throw
+
+//метод считывает строку с клавиатуры
+
+public String input() throws MyException {//предупреждаем с помощью throws,
+// что метод может выбросить исключение MyException
+      BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    String s = null;
+//в блок try заключаем код, в котором может произойти исключение, в данном
+// случае компилятор нам подсказывает, что метод readLine() класса
+// BufferedReader может выбросить исключение ввода/вывода
+    try {
+        s = reader.readLine();
+// в блок  catch заключаем код по обработке исключения IOException
+    } catch (IOException e) {
+        System.out.println(e.getMessage());
+// в блоке finally закрываем поток чтения
+    } finally {
+// при закрытии потока тоже возможно исключение, например, если он не был открыт, поэтому “оборачиваем” код в блок try
+        try {
+            reader.close();
+// пишем обработку исключения при закрытии потока чтения
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    if (s.equals("")) {
+// мы решили, что пустая строка может нарушить в дальнейшем работу нашей программы, например, на результате этого 
+//метода нам надо вызывать метод substring(1,2), поэтому мы вынуждены прервать выполнение программы 
+//с генерацией своего типа исключения MyException с помощью throw
+        throw new MyException("String can not be empty!");
+    }
+    return s;
+}
+
+
+***************************************************************************************************************************
+
+
+public class PerimetrExeption extends Exception {	//конструкторы для Exception
+    public PerimetrExeption() {
+    }
+
+    public PerimetrExeption(String message) {
+        super(message);
+    }
+
+    public PerimetrExeption(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public PerimetrExeption(Throwable cause) {
+        super(cause);
+    }
+
+    public PerimetrExeption(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+}
+
+public class PerimetrSquare {
+    public void getPerimetr(){
+        Square square = new Square();
+        try {
+            square.setSide(0);
+        } catch (PerimetrExeption e) {			//обработка исключений
+           // e.printStackTrace();			//we can retutn printStackTrace, but because we create our 
+							//message below, message will still be displayed
+							
+            System.err.println(e.getMessage());		//and we can make own message using getMessage()
+        }
+    }
+}
+
+
+public class Square {
+    private double side;
+
+    public double getSide() {
+        return side;
+    }
+
+    public void setSide(double side) throws PerimetrExeption {
+        if (side <= 0){
+            throw new PerimetrExeption("Side is incorrect");	//this is our message, it looks like this, because 
+								//constuctors in PerimetrExeption extends Exception
+        }
+        this.side = side;
+    }
+}
+ 
+
+
+**************************************************************************************************************************
+public class PerimetrExeption extends Exception {
+    public PerimetrExeption() {
+    }
+
+    public PerimetrExeption(String message) {
+        super(message);
+    }
+
+    public PerimetrExeption(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public PerimetrExeption(Throwable cause) {
+        super(cause);
+    }
+
+    public PerimetrExeption(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+}
+
+
+public class PerimetrSquare {
+    public void getPerimetr(String str) throws PerimetrExeption {
+        Square square = new Square();
+
+        try {
+            double side = Double.parseDouble(str);
+            square.setSide(0);
+        } catch (NumberFormatException e) {
+            throw new PerimetrExeption("String is incorrect", e);
+        } catch (PerimetrExeption ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+}
+
+public class Square {
+    private double side;
+
+    public double getSide() {
+        return side;
+    }
+
+    public void setSide(double side) throws PerimetrExeption {
+        if (side <= 0){
+            throw new PerimetrExeption("Side is incorrect");
+        }
+        this.side = side;
+    }
+}
+
+
+public class CommonMain {
+    public static void main(String[] arg){
+        PerimetrSquare perimetrSquare = new PerimetrSquare();
+        try {
+            perimetrSquare.getPerimetr("g");
+        } catch (PerimetrExeption e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+	//this is the returned message of exception. in the first line our message is displayed
+	//and from four line to the end causes are described
+
+com.company.lesson_30.PerimetrExeption: String is incorrect
+	at com.company.lesson_30.PerimetrSquare.getPerimetr(PerimetrSquare.java:11)
+	at main_progs.CommonMain.main(CommonMain.java:14)
+Caused by: java.lang.NumberFormatException: For input string: "g"
+	at java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2054)
+	at java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+	at java.base/java.lang.Double.parseDouble(Double.java:549)
+	at com.company.lesson_30.PerimetrSquare.getPerimetr(PerimetrSquare.java:8)
+	... 1 more
+
+
+
+            Потоки ввода вывода (I/O)
+
+public static void main(String[] arg){
+        int b = 0;
+        FileInputStream fis = null;
+        InputStreamReader isr = null;
+        try {
+            fis = new FileInputStream("c:/1.txt");
+            isr = new InputStreamReader(fis, "UTF-8");
+            while ((b = isr.read()) != -1) {
+                System.out.println((char)b);
+            }
+        } catch (FileNotFoundException e) {     //error handling if there is no file
+            e.printStackTrace();
+        } catch (IOException e) {               //error handling if file is broken, but IOException
+                                                //is more important exception, but i left it for accuracy
+
+            e.printStackTrace();
+        }
+    }
