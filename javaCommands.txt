@@ -892,11 +892,15 @@ public class CommonMain {
         } finally { //if we don't use finally, new text will not add to our file, i don't know cases
                     //therefore we have to close a variable, therefore we write finally and handle
                     //with try-catch block fileWriter.close() action
+        if (fileWriter !=null){ //before closing it's suppose fileWriter is filled in, to do
+            //this we check, that fileWriter isn't empty
+            //we must do it every time.
             try {
                 fileWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
         }
     }
 }
@@ -918,10 +922,22 @@ public static void main(String[] arg){
         } finally { //if we don't use finally, new text will not add to our file, i don't know cases
                     //therefore we have to close a variable, therefore we write finally and handle
                     //with try-catch block fileWriter.close() action
-            try {
+        if (fileWriter != null){
+           try {
                 fileWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        }
     }
+
+
+
+                            Сериализация | Десериализация Объектов
+Сериализация — это процесс сохранения состояния объекта в последовательность байт.
+
+Десериализация — это процесс восстановления объекта из этих байт.
+интерфейсы-маркеры. Это специальные информативные интерфейсы, которые просто помечают наши классы
+дополнительной информацией, в будущем полезной для Java-машины. Никаких методов, которые нужно
+было  бы имплементировать, у них нет. Так вот, Serializable — один из таких интерфейсов.
