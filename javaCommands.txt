@@ -799,7 +799,9 @@ Caused by: java.lang.NumberFormatException: For input string: "g"
 
 
 
-            Потоки ввода вывода (I/O)
+                                    Потоки ввода вывода (I/O)
+
+                                       input stream
 
 public static void main(String[] arg){
         int b = 0;
@@ -849,6 +851,77 @@ public static void main(String[] arg){
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+    }
+
+
+
+                                    output stream
+
+public static void main(String[] arg){
+        FileOutputStream fileOutputStream = null;
+        String str = "dhfdy";
+        try {
+            fileOutputStream = new FileOutputStream("d:/1.txt");    //i use disk the d because
+    // i haven't got access rights for the c disk
+            fileOutputStream.write(str.getBytes()); //method write is output stream,
+    //but this method replaces written text in this file
+    // we use str.getBytes() because write takes byte[] type,
+    //also we're going to exploit a try-catch
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+
+public class CommonMain {
+    public static void main(String[] arg){
+         FileWriter fileWriter = null;
+        String str = "   scsadc";
+
+
+        try {
+            fileWriter = new FileWriter("d:/1.txt", true);//FileWriter adds text after
+            //written text early
+            fileWriter.write(str);
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        } finally { //if we don't use finally, new text will not add to our file, i don't know cases
+                    //therefore we have to close a variable, therefore we write finally and handle
+                    //with try-catch block fileWriter.close() action
+            try {
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+
+public static void main(String[] arg){
+         FileWriter fileWriter = null;
+        String str = "   scsadc";
+        File file = new File("d:/3.txt");// class File works with external drive,
+        //it can delete, change, rename, etc.
+
+        try {
+            fileWriter = new FileWriter(file, true);//FileWriter adds text after
+            //written text early
+            fileWriter.write(str);
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        } finally { //if we don't use finally, new text will not add to our file, i don't know cases
+                    //therefore we have to close a variable, therefore we write finally and handle
+                    //with try-catch block fileWriter.close() action
+            try {
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
